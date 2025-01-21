@@ -347,7 +347,7 @@ Function DriverUpdate {
 		Script requires elevation.
 
 	.NOTES
-		 Author     : Christian Smit - christian.smit@cardinalhealth.net
+		 Author     : 
 	.LINK
 		 http://
 	#>
@@ -811,30 +811,7 @@ Function DriverUpdate {
 		WriteLog -line ("No package repository found for this computer model on this platform available: $packageFolder was not found." -f $_.FullName) -logFile $outputFile
 	}
 
-    <#
-	$caption = "Configuring wireless advanced settings"
 
-	WriteLogSectionHeader -caption $caption -logFile $outputFile
-		
-	$action = 'Registry'
-	$caption = "Tagging $action with driver update version"
-
-	WriteLogSectionHeader -caption $caption -logFile $outputFile
-
-	If(-not [String]::IsNullOrEmpty($driverUpdateVersion)) {
-		
-
-		If (!(Test-Path "HKLM:\Software\CAH\Cardinal")) {
-			New-Item -Type RegistryKey -Path "HKLM:\Software\CAH\Cardinal" -Force -Verbose 4>> $outputFile
-		}
-
-		Set-ItemProperty -Path "HKLM:\Software\CAH\Cardinal" -Name "DriverUpdate" -Type 'String' -Value $driverUpdateVersion -Verbose 4>> $outputFile
-
-	}
-	else {
-		WriteLog -line ("registry not tagged - driver version was blank") -logFile $outputFile
-	}
-    #>
 
 	WriteLogSectionHeader -caption "Script finished" -logFile $outputFile
 
