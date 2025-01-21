@@ -461,7 +461,7 @@ New-ItemProperty -LiteralPath 'HKLM:\SYSTEM\CurrentControlSet\Services\DeviceIns
 				$UninstallKeys["InstallDate"] = "String", [string]$(Get-Date -Format "yyyyMMdd") #<-- Don't change.
 				$UninstallKeys["InstalledBy"] = "String", $env:USERNAME #<-- Don't change.
 				
-				$UninstallKeys["Publisher"] = "String", "Cardinal Health" #<-- Do modify if required
+				$UninstallKeys["Publisher"] = "String", "Company Name" #<-- Do modify if required
 				#$UninstallKeys["DisplayIcon"] = "String","[path to EXE or ICO file]"              #<-- Do modify if required
 				$UninstallKeys["NoRepair"] = "DWORD", 1 #<-- Modify if needed
 				$UninstallKeys["NoModify"] = "DWORD", 1 #<-- Modify if needed
@@ -487,7 +487,7 @@ New-ItemProperty -LiteralPath 'HKLM:\SYSTEM\CurrentControlSet\Services\DeviceIns
 				$UninstallKeys["InstallDate"] = "String", [string]$(Get-Date -Format "yyyyMMdd") #<-- Don't change.
 				$UninstallKeys["InstalledBy"] = "String", $env:USERNAME #<-- Don't change.
 				
-				$UninstallKeys["Publisher"] = "String", "Cardinal Health" #<-- Do modify if required
+				$UninstallKeys["Publisher"] = "String", "Company Name" #<-- Do modify if required
 				#$UninstallKeys["DisplayIcon"] = "String","[path to EXE or ICO file]"              #<-- Do modify if required
 				$UninstallKeys["NoRepair"] = "DWORD", 1 #<-- Modify if needed
 				$UninstallKeys["NoModify"] = "DWORD", 1 #<-- Modify if needed
@@ -541,7 +541,7 @@ New-ItemProperty -LiteralPath 'HKLM:\SYSTEM\CurrentControlSet\Services\DeviceIns
 				$UninstallKeys["InstallDate"] = "String", [string]$(Get-Date -Format "yyyyMMdd") #<-- Don't change.
 				$UninstallKeys["InstalledBy"] = "String", $env:USERNAME #<-- Don't change.
 				
-				$UninstallKeys["Publisher"] = "String", "Cardinal Health" #<-- Do modify if required
+				$UninstallKeys["Publisher"] = "String", "Company Name" #<-- Do modify if required
 				#$UninstallKeys["DisplayIcon"] = "String","[path to EXE or ICO file]"              #<-- Do modify if required
 				$UninstallKeys["NoRepair"] = "DWORD", 1 #<-- Modify if needed
 				$UninstallKeys["NoModify"] = "DWORD", 1 #<-- Modify if needed
@@ -592,11 +592,11 @@ New-ItemProperty -LiteralPath 'HKLM:\SYSTEM\CurrentControlSet\Services\DeviceIns
         }
         
         #  ******  Tag registry  ******
-        Set-RegistryKey -Key "HKLM\Software\CompanyName\Cardinal\$appVendor.$appName.$appVersion" -Name 'ExitCode' -Value $mainExitCode -Type String
-        Set-RegistryKey -Key "HKLM\Software\CompanyName\Cardinal\$appVendor.$appName.$appVersion" -Name 'InstallDate' -Value $(Get-Date) -Type String
-        Set-RegistryKey -Key "HKLM\Software\CompanyName\Cardinal\$appVendor.$appName.$appVersion" -Name 'InstallStatus' -Value $status -Type String
-        Set-RegistryKey -Key "HKLM\Software\CompanyName\Cardinal\$appVendor.$appName.$appVersion" -Name 'PkgBuildDate' -Value $appScriptDate -Type String
-        Set-RegistryKey -Key "HKLM\Software\CompanyName\Cardinal\$appVendor.$appName.$appVersion" -Name 'PkgInstallVersion' -Value "v$appScriptVersion, r$appRevision" -Type String
+        Set-RegistryKey -Key "HKLM\Software\CompanyName\CompanyName\$appVendor.$appName.$appVersion" -Name 'ExitCode' -Value $mainExitCode -Type String
+        Set-RegistryKey -Key "HKLM\Software\CompanyName\CompanyName\$appVendor.$appName.$appVersion" -Name 'InstallDate' -Value $(Get-Date) -Type String
+        Set-RegistryKey -Key "HKLM\Software\CompanyName\CompanyName\$appVendor.$appName.$appVersion" -Name 'InstallStatus' -Value $status -Type String
+        Set-RegistryKey -Key "HKLM\Software\CompanyName\CompanyName\$appVendor.$appName.$appVersion" -Name 'PkgBuildDate' -Value $appScriptDate -Type String
+        Set-RegistryKey -Key "HKLM\Software\CompanyName\CompanyName\$appVendor.$appName.$appVersion" -Name 'PkgInstallVersion' -Value "v$appScriptVersion, r$appRevision" -Type String
 		
 		## Display a message at the end of the install
 		#If (-not $useDefaultMsi) { Show-InstallationPrompt -Message 'You can customize text to appear at the end of an install or remove it completely for unattended installations.' -ButtonRightText 'OK' -Icon Information -NoWait }
