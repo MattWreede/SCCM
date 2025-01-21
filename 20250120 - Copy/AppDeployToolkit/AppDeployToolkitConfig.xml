@@ -1,0 +1,2006 @@
+﻿<AppDeployToolkit_Config>
+    <!--
+    PSAppDeployToolkit - This XML configuration file is used to set defaults for the PSADT core
+    runtime and functions.
+
+    PSAppDeployToolkit is licensed under the GNU LGPLv3 License - (C) 2024 PSAppDeployToolkit Team
+    (Sean Lillis, Dan Cunningham and Muhammad Mashwani).
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the
+    Free Software Foundation, either version 3 of the License, or any later version. This program is
+    distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+    PARTICULAR PURPOSE. See the GNU General Public License
+    for more details. You should have received a copy of the GNU Lesser General Public License along
+    with this program. If not, see <http://www.gnu.org/licenses/>.
+    -->
+
+    <!--Configuration
+    File Details-->
+    <Config_File>
+        <Config_Version>3.10.2</Config_Version>
+        <Config_Date>08/13/2024</Config_Date>
+    </Config_File>
+
+    <!--Toolkit
+    Options-->
+    <Toolkit_Options>
+        <Toolkit_RequireAdmin>True</Toolkit_RequireAdmin>
+        <!-- Specify if Administrator Rights are required. NB: Some functions won't work if this is
+        set to false, such as deferral, blockexecution, file & registry RW access and potentially
+        logging. -->
+        <Toolkit_TempPath>$envTemp</Toolkit_TempPath>
+        <!-- Path used to store temporary Toolkit files (with PSAppDeployToolkit as subdirectory),
+        e.g. cache toolkit for cleaning up blocked apps. Normally you don't want this set to a path
+        that is writable by regular users, this might lead to a security vulnerability. The default
+        Temp variable for the LocalSystem account is C:\Windows\Temp. -->
+        <Toolkit_RegPath>HKLM:\SOFTWARE</Toolkit_RegPath>
+        <!-- Registry key used to store toolkit information (with PSAppDeployToolkit as child
+        registry key), e.g. deferral history. -->
+        <Toolkit_LogPath>$envWinDir\Logs\Software</Toolkit_LogPath>
+        <!-- Log path used for Toolkit logging. -->
+        <Toolkit_TempPathNoAdminRights>$envTemp</Toolkit_TempPathNoAdminRights>
+        <!-- Same as TempPath but used when RequireAdmin is False. -->
+        <Toolkit_RegPathNoAdminRights>HKCU:\SOFTWARE</Toolkit_RegPathNoAdminRights>
+        <!-- Same as RegPath but used when RequireAdmin is False. Bear in mind that since this
+        Registry Key should be writable without admin permission, regular users can modify it also. -->
+        <Toolkit_LogPathNoAdminRights>$envProgramData\Logs\Software</Toolkit_LogPathNoAdminRights>
+        <!-- Same as LogPath but used when RequireAdmin is False. -->
+        <Toolkit_CompressLogs>False</Toolkit_CompressLogs>
+        <!-- Specify if the log files should be bundled together in a compressed zip file -->
+        <Toolkit_LogStyle>CMTrace</Toolkit_LogStyle>
+        <!-- Specify if log file should be a CMTrace compatible log file or a Legacy text log file. -->
+        <Toolkit_LogDebugMessage>False</Toolkit_LogDebugMessage>
+        <!-- Specify if debug messages such as bound parameters passed to a function should be
+        logged. -->
+        <Toolkit_LogWriteToHost>True</Toolkit_LogWriteToHost>
+        <!-- Specify if log messages should be written to the console. -->
+        <Toolkit_LogAppend>True</Toolkit_LogAppend>
+        <!-- Specify if an existing log file should be appended to. -->
+        <Toolkit_LogMaxSize>10</Toolkit_LogMaxSize>
+        <!-- Specify maximum file size limit for log file in megabytes (MB). -->
+        <Toolkit_LogMaxHistory>10</Toolkit_LogMaxHistory>
+        <!-- Specify maximum number of previous log files to retain. -->
+        <Toolkit_UseRobocopy>True</Toolkit_UseRobocopy>
+        <!-- Specify if Robocopy should be used with the Copy-File function. -->
+        <Toolkit_CachePath>$envProgramData\SoftwareCache</Toolkit_CachePath>
+        <!-- Specify the path for the cache folder -->
+    </Toolkit_Options>
+    <!--Toolkit
+    Options-->
+
+    <!--Toast
+    Notification Options-->
+    <Toast_Options>
+        <Toast_Disable>True</Toast_Disable>
+        <Toast_AppName>PSAppDeployToolkit</Toast_AppName>
+    </Toast_Options>
+    <!--Toast
+    Notification Options-->
+
+    <!--Banner,
+    Logo & Icon Options-->
+    <BannerIcon_Options>
+        <Icon_Filename>AppDeployToolkitLogo.ico</Icon_Filename>
+        <!-- Specify filename of the icon. -->
+        <LogoImage_Filename>AppDeployToolkitLogo.png</LogoImage_Filename>
+        <!-- Specify filename of the logo. -->
+        <Banner_Filename>AppDeployToolkitBanner.png</Banner_Filename>
+        <!-- Specify filename of the banner. -->
+        <Banner_MaxHeight>150</Banner_MaxHeight>
+        <!-- Set a maximum banner height. Overflow will be invisible. -->
+    </BannerIcon_Options>
+    <!--Banner,
+    Logo & Icon Options-->
+
+    <!--MSI
+    Options-->
+    <MSI_Options>
+        <MSI_LoggingOptions>/L*v</MSI_LoggingOptions>
+        <!-- Logging level used for MSI logging. -->
+        <MSI_LogPath>$envWinDir\Logs\Software</MSI_LogPath>
+        <!-- Log path used for MSI logging. -->
+        <MSI_LogPathNoAdminRights>$envProgramData\Logs\Software</MSI_LogPathNoAdminRights>
+        <!-- Log path used for MSI logging when RequireAdmin is False. -->
+        <MSI_InstallParams>REBOOT=ReallySuppress /QB-!</MSI_InstallParams>
+        <!-- Installation parameters used for non-silent MSI actions. -->
+        <MSI_SilentParams>REBOOT=ReallySuppress /QN</MSI_SilentParams>
+        <!-- Installation parameters used for silent MSI actions. -->
+        <MSI_UninstallParams>REBOOT=ReallySuppress /QN</MSI_UninstallParams>
+        <!-- Installation parameters used for MSI uninstall actions. -->
+        <MSI_MutexWaitTime>600</MSI_MutexWaitTime>
+        <!-- The length of time in seconds to wait for the MSI installer service to become
+        available. Default is 600 seconds (10 minutes) -->
+    </MSI_Options>
+    <!--MSI
+    Options-->
+
+    <!--UI
+    Options-->
+    <UI_Options>
+        <InstallationUI_LanguageOverride></InstallationUI_LanguageOverride>
+        <!-- Specify a static UI language using the one of the Language Codes listed below to
+        override the language culture detected on the system.
+             Language Code      Language        |       Language Code       Language
+             =============      ========        |       =============       ========
+             EN                 English         |       DA                  Danish
+             FR                 French          |       DE                  German
+             IT                 Italian         |       JA                  Japanese
+             NL                 Dutch           |       NB                  Norwegian (Bokmål)
+             PL                 Polish          |       PT                  Portuguese (Portugal)
+             ES                 Spanish         |       PT-BR               Portuguese (Brazil)
+             SV                 Swedish         |       AR                  Arabic
+             HE                 Hebrew          |       ZH-Hans             Chinese (Simplified)
+             KO                 Korean          |       ZH-Hant             Chinese (Traditional)
+             RU                 Russian         |       SK                  Slovak
+             HU                 Hungarian       |       CZ                  Czech
+             FI                 Finnish         |
+        -->
+        <ShowBalloonNotifications>True</ShowBalloonNotifications>
+        <!-- [True/False] - Used to turn automatic balloon notifications on or off. -->
+        <InstallationUI_Timeout>6900</InstallationUI_Timeout>
+        <!-- Time in seconds to automatically timeout installation dialogs. Default is 1 hour and 55
+        minutes so that dialogs timeout before SCCM times out. -->
+        <InstallationUI_ExitCode>1618</InstallationUI_ExitCode>
+        <!-- Exit code used when a UI prompt times out or the user opts to defer. -->
+        <InstallationDefer_ExitCode>60012</InstallationDefer_ExitCode>
+        <!-- Exit code used when a user opts to defer. -->
+        <InstallationPrompt_PersistInterval>60</InstallationPrompt_PersistInterval>
+        <!-- Time in seconds after which the prompt should be repositioned centre screen when the
+        -PersistPrompt parameter is used. Default is 60 seconds. -->
+        <InstallationRestartPrompt_PersistInterval>600</InstallationRestartPrompt_PersistInterval>
+        <!-- Time in seconds after which the restart prompt should be re-displayed/repositioned when
+        the -NoCountdown parameter is specified. Default is 600 seconds. -->
+        <InstallationPromptToSave_Timeout>120</InstallationPromptToSave_Timeout>
+        <!-- Time in seconds after which to re-prompt the user to close applications in case they
+        ignore the prompt or they cancel the application's save prompt. -->
+        <InstallationWelcomePrompt_DynamicRunningProcessEvaluation>True</InstallationWelcomePrompt_DynamicRunningProcessEvaluation>
+        <!-- [True/False] - Specify whether to re-enumerate running processes dynamically while
+        displaying Show-InstallationWelcome. -->
+        <!-- If the CloseApps processes were not running when the prompt was displayed, and are
+        subsequently detected to be running, the prompt will be updated with the apps to close. -->
+        <!-- If the CloseApps processes were running when the prompt was displayed and are
+        subsequently detected not to be running then the installation will automatically continue if
+        deferral is not available. -->
+        <!-- If the running applications change (new CloseApps processes launched or running
+        processes closed), the list box will dynamically update to reflect the currently running
+        applications. -->
+        <InstallationWelcomePrompt_DynamicRunningProcessEvaluationInterval>2</InstallationWelcomePrompt_DynamicRunningProcessEvaluationInterval>
+        <!-- Time in seconds after which to re-enumerate running processes while displaying the
+        Show-InstallationWelcome prompt. Default is 2 seconds. -->
+    </UI_Options>
+    <!--UI
+    Options-->
+
+    <!-- UI Messages - English -->
+    <UI_Messages_EN>
+        <!-- Close Program Prompt Text -->
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_EN>
+
+    <!-- UI Messages - Danish -->
+    <UI_Messages_DA>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_DA>
+    <UI_Messages_FR>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_FR>
+    <UI_Messages_DE>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_DE>
+    <UI_Messages_IT>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_IT>
+    <UI_Messages_JA>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_JA>
+    <UI_Messages_NB>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_NB>
+    <UI_Messages_NL>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_NL>
+    <UI_Messages_PL>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_PL>
+    <UI_Messages_PT>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_PT>
+    <UI_Messages_PT-BR>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_PT-BR>
+    <UI_Messages_ES>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_ES>
+    <UI_Messages_SV>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_SV>
+    <UI_Messages_AR>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_AR>
+    <UI_Messages_HE>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_HE>
+    <UI_Messages_KO>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_KO>
+    <UI_Messages_RU>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_RU>
+    <UI_Messages_ZH-Hans>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_ZH-Hans>
+    <UI_Messages_ZH-Hant>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_ZH-Hant>
+    <UI_Messages_SK>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_SK>
+    <UI_Messages_CZ>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_CZ>
+    <UI_Messages_HU>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_HU>
+    <UI_Messages_FI>
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_FI>
+    <!-- UI Messages - Turkish -->
+    <UI_Messages_TR>
+        <!-- Close Program Prompt Text -->
+        <DiskSpace_Message>You do not have enough disk space to complete the installation of:
+            {0}
+
+            Space required: {1}MB
+            Space available: {2}MB
+
+            Please free up enough disk space in order to proceed with the installation.</DiskSpace_Message>
+        <ClosePrompt_ButtonContinue>&amp;Continue</ClosePrompt_ButtonContinue>
+        <!-- Text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonContinueTooltip>Only select "Continue" after closing the above listed application(s).</ClosePrompt_ButtonContinueTooltip>
+        <!-- Tooltip text displayed on the continue button when prompting to close running programs. -->
+        <ClosePrompt_ButtonClose>Close &amp;Programs</ClosePrompt_ButtonClose>
+        <!-- Text displayed on the close button when prompting to close running programs. -->
+        <ClosePrompt_ButtonDefer>&amp;Defer</ClosePrompt_ButtonDefer>
+        <!-- Text displayed on the defer button when prompting to close running programs. -->
+        <ClosePrompt_Message>The following programs must be closed before the installation can proceed.
+
+            Please save your work, close the programs, and then continue. Alternatively, save your work and click "Close Programs".</ClosePrompt_Message>
+        <!-- Text displayed when prompting to close running programs. -->
+        <ClosePrompt_CountdownMessage>NOTE: The program(s) will be automatically closed in:</ClosePrompt_CountdownMessage>
+        <!-- Text displayed when counting down to automatically closing applications. -->
+        <DeferPrompt_WelcomeMessage>The following application is about to be installed:</DeferPrompt_WelcomeMessage>
+        <!-- Text displayed when only the deferral dialog is to be displayed and there are no applications to close. -->
+        <DeferPrompt_ExpiryMessage>You can choose to defer the installation until the deferral expires:</DeferPrompt_ExpiryMessage>
+        <!-- Text displayed when a deferral option is available. -->
+        <DeferPrompt_WarningMessage>Once the deferral has expired, you will no longer have the option to defer.</DeferPrompt_WarningMessage>
+        <!-- Text displayed after the deferral options. -->
+        <DeferPrompt_RemainingDeferrals>Remaining Deferrals:</DeferPrompt_RemainingDeferrals>
+        <!-- Text displayed when there are a specific number of deferrals remaining. -->
+        <DeferPrompt_Deadline>Deadline:</DeferPrompt_Deadline>
+        <!-- Text displayed when there is a specific deferral deadline. -->
+
+        <WelcomePrompt_CountdownMessage>The {0} will automatically continue in:</WelcomePrompt_CountdownMessage>
+        <!-- The countdown message displayed at the Welcome Screen to indicate when the install will continue if no response from user. -->
+        <WelcomePrompt_CustomMessage></WelcomePrompt_CustomMessage>
+        <!-- This is a custom message to display at the Welcome Screen window. -->
+
+        <DeploymentType_Install>Installation</DeploymentType_Install>
+        <!-- Name displayed in UI for installation deployment type. -->
+        <DeploymentType_UnInstall>Uninstallation</DeploymentType_UnInstall>
+        <!-- Name displayed in UI for uninstallation deployment type. -->
+        <DeploymentType_Repair>Repairing</DeploymentType_Repair>
+        <!-- Name displayed in UI for repair deployment type. -->
+
+        <!-- Balloon Tip Text -->
+        <BalloonText_Start>started.</BalloonText_Start>
+        <!-- Text displayed in the balloon tip for the start of a deployment type. -->
+        <BalloonText_Complete>complete.</BalloonText_Complete>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_RestartRequired>complete. A reboot is required.</BalloonText_RestartRequired>
+        <!-- Text displayed in the balloon tip for successful completion of a deployment type. -->
+        <BalloonText_Error>failed.</BalloonText_Error>
+        <!-- Text displayed in the balloon tip for a failed deployment type. -->
+        <BalloonText_FastRetry>not complete.</BalloonText_FastRetry>
+        <!-- Text displayed in the balloon tip for fast retry of a deployment -->
+
+        <Progress_MessageInstall>Installation in progress. Please wait...</Progress_MessageInstall>
+        <!-- Default text displayed in the progress bar for installations. -->
+        <Progress_MessageUninstall>Uninstallation in progress. Please wait...</Progress_MessageUninstall>
+        <!-- Default text displayed in the progress bar for uninstallations. -->
+        <Progress_MessageRepair>Repair in progress. Please wait...</Progress_MessageRepair>
+        <!-- Default text displayed in the progress bar for repairs. -->
+        <BlockExecution_Message>Launching this application has been temporarily blocked so that an installation operation can complete.</BlockExecution_Message>
+        <!-- Text displayed when prompting user that an application has been blocked. -->
+        <RestartPrompt_Title>Restart Required</RestartPrompt_Title>
+        <!-- Text displayed in the title of the restart prompt which helps the script identify
+        whether there is already a restart prompt being displayed and not to duplicate it. -->
+        <RestartPrompt_Message>In order for the installation to complete, you must restart your computer.</RestartPrompt_Message>
+        <RestartPrompt_MessageTime>Please save your work and restart within the allotted time.</RestartPrompt_MessageTime>
+        <RestartPrompt_MessageRestart>Your computer will be automatically restarted at the end of the countdown.</RestartPrompt_MessageRestart>
+        <!-- Text displayed on the restart prompt. -->
+        <RestartPrompt_TimeRemaining>Time remaining:</RestartPrompt_TimeRemaining>
+        <RestartPrompt_ButtonRestartLater>Minimize</RestartPrompt_ButtonRestartLater>
+        <RestartPrompt_ButtonRestartNow>Restart Now</RestartPrompt_ButtonRestartNow>
+    </UI_Messages_TR>
+</AppDeployToolkit_Config>

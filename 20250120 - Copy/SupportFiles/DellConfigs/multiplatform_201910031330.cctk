@@ -1,0 +1,4 @@
+[cctk]
+TpmActivation=Enabled
+TpmSecurity=Enabled
+UefiBootPathSecurity=Never

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<configuration>
+    <startup/>
+    <appsettings>
+        
+        <!-- MANUFACTURER - f.ex: Lenovo, Dell, HP, Microsoft -->
+		<add key='Manufacturer' value='Dell'/>
+        
+		<!-- MODEL - f.ex: ThinkPad L480 -->
+		<add key='Model' value='Latitude 7320 Detachable'/>
+		
+        <!-- VERIONS - our version of this installer -->
+		<add key='Version' value='20250120'/>
+
+		<!-- BIOSINSTALLER - the executable or command file that performs the BIOS update. If paremeters are needed, specify them in BIOSInstallerArguments' -->
+		<add key='BIOSInstaller' value=''/>
+		
+		<!-- BIOSINSTALLERARGUMENTS - the command line arguments for BIOSInstaller' -->
+        <add key='BIOSInstallerArguments' value=''/>
+		
+		<!-- BIOSVERSION - we use this to check if the BIOS update is needed - or not -->
+        <add key='BIOSVersion' value=''/>
+		
+		<!-- BIOSPASSWORD - password to make changes to BIOS configuration -->
+		<add key='BIOSPassword' value=''/>
+		
+        <!-- PSAppToolkit -->
+		<!-- ALLOWDEFER -->
+		<!-- VALUES: True, False -->
+        <add key='AllowDefer' value='False'/> 
+		
+		<!-- DEFERTIMES -->
+		<!-- TYPE: Int -->
+        <add key='DeferTimes' value='3'/>
+		
+		<!-- FORCECOUNTDOWN -->
+		<!-- TYPE: Int (seconds) -->
+        <add key='ForceCountDown' value='3600'/> <!-- 1 hour -->
+
+		<add key='ModelCheck' value=''/>
+
+    </appsettings>
+</configuration>
